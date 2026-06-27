@@ -1,0 +1,17 @@
+services:
+  invoice-ai:
+    build: .
+    image: invoice-ai:1.0.0
+    ports:
+      - "7860:7860"      # REST API + Gradio UI (UI at /ui, docs at /docs)
+    environment:
+      - INVOICE_AI_ARTIFACTS_DIR=/app/artifacts
+      - HF_HOME=/app/.cache/huggingface
+      # - INVOICE_AI_LLM_API_KEY=${INVOICE_AI_LLM_API_KEY}   # optional LLM-vision fallback
+    volumes:
+      - ./artifacts:/app/artifacts          # persist the trained model + review queue
+      - hf_cache:/app/.cache/huggingface
+    restart: unless-stopped
+
+volumes:
+  hf_cache:

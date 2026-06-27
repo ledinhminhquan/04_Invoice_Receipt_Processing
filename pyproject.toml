@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invoice-ai"
+version = "1.0.0"
+description = "Invoice & Receipt Processing System — a production, offline-first, agentic Document-AI KIE system."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Le Dinh Minh Quan" }]
+keywords = ["document-ai", "kie", "invoice", "receipt", "layoutlmv3", "donut", "ocr", "agent", "fastapi"]
+
+# Core deps: enough to import the package and run the regex extractor + validation
+# agent + API on a clean machine. Heavy ML / OCR libs live in extras so we never
+# force a torch/CUDA version that conflicts with Colab.
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "PyYAML>=6.0",
+  "pydantic>=2.5",
+  "Pillow>=10.0",
+  "python-dateutil>=2.8",
+  "pdfplumber>=0.11",
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+ml = [
+  "torch>=2.2", "transformers>=4.46", "datasets>=2.20", "accelerate>=0.34",
+  "evaluate>=0.4", "seqeval>=1.2", "sentencepiece>=0.1.99",
+]
+ocr = ["pytesseract>=0.3.10", "pdf2image>=1.17"]
+report = ["reportlab>=4.1", "python-pptx>=0.6.23", "matplotlib>=3.8"]
+ui = ["gradio>=4.44"]
+tune = ["optuna>=3.6"]
+llm = ["anthropic>=0.39"]
+metrics = ["prometheus-client>=0.20"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+all = [
+  "torch>=2.2", "transformers>=4.46", "datasets>=2.20", "accelerate>=0.34",
+  "evaluate>=0.4", "seqeval>=1.2", "sentencepiece>=0.1.99", "pytesseract>=0.3.10",
+  "pdf2image>=1.17", "reportlab>=4.1", "python-pptx>=0.6.23", "matplotlib>=3.8",
+  "gradio>=4.44", "optuna>=3.6", "anthropic>=0.39", "prometheus-client>=0.20",
+]
+
+[project.scripts]
+invoice-ai = "invoice_ai.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/<your-username>/invoice-ai"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+invoice_ai = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"

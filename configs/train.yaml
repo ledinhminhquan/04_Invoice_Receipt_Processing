@@ -1,0 +1,59 @@
+# Full configuration for TRAINING (invoice-ai --config configs/train.yaml ...)
+# Loaded into invoice_ai.config.AppConfig. Paths come from env vars (INVOICE_AI_*).
+project_title: "Invoice & Receipt Processing System"
+author: "Le Dinh Minh Quan"
+
+data:
+  sroie_dataset: "mp-02/sroie"
+  cord_dataset: "naver-clova-ix/cord-v2"
+  funsd_dataset: "nielsr/funsd-layoutlmv3"
+  invoices_dataset: "katanaml-org/invoices-donut-data-v1"
+  val_size: 0.1
+  seed: 42
+
+model:
+  # layoutlmv3-base = best accuracy but CC-BY-NC-SA (non-commercial).
+  # For commercial use set: "SCUT-DLVCLab/lilt-roberta-en-base" (MIT).
+  layout_model: "microsoft/layoutlmv3-base"
+  layout_model_commercial: "SCUT-DLVCLab/lilt-roberta-en-base"
+  donut_model: "naver-clova-ix/donut-base"
+  donut_cord: "naver-clova-ix/donut-base-finetuned-cord-v2"
+  baseline_encoder: "google-bert/bert-base-uncased"
+  max_length: 512
+  doc_stride: 128
+  apply_ocr: false
+  num_train_epochs: 8
+  learning_rate: 5.0e-5
+  per_device_train_batch_size: 8
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  label_smoothing_factor: 0.1
+  early_stopping_patience: 4
+  bf16: true
+  fp16: false
+  seed: 42
+
+ocr:
+  engine: "auto"            # auto | tesseract | paddle | native
+  fallback_engine: "tesseract"
+  lang: "eng"
+  dpi: 250
+
+agent:
+  quality_min: 0.45
+  ocr_min: 0.70
+  field_conf_min: 0.80
+  auto_approve_min: 0.85
+  max_ocr_attempts: 2
+  reconcile_eps_abs: 0.01
+  reconcile_eps_rel: 0.005
+  llm_fallback_enabled: false   # set true + export INVOICE_AI_LLM_API_KEY to enable
+  llm_model: "claude-haiku-4-5-20251001"
+  llm_api_key_env: "INVOICE_AI_LLM_API_KEY"
+
+serving:
+  model_version: "v1"
+  api_version: "1.0.0"
+  log_extractions: true
+  max_file_mb: 20
+  max_pages: 15

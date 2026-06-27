@@ -1,0 +1,36 @@
+# Colab-safe requirements. Does NOT list torch (Colab ships a CUDA-matched build;
+# reinstalling torch is the #1 cause of CUDA-mismatch errors). The notebook
+# installs this and leaves torch untouched. Tesseract + Poppler are installed via
+# apt in the notebook.
+
+transformers>=4.46
+datasets>=2.20
+accelerate>=0.34
+evaluate>=0.4
+seqeval>=1.2
+sentencepiece>=0.1.99
+pandas>=2.0
+PyYAML>=6.0
+Pillow>=10.0
+python-dateutil>=2.8
+
+# OCR / PDF
+pytesseract>=0.3.10
+pdfplumber>=0.11
+pdf2image>=1.17
+
+# serving / API / UI
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+gradio>=4.44
+pydantic>=2.5
+
+# reporting
+reportlab>=4.1
+python-pptx>=0.6.23
+matplotlib>=3.8
+
+# tuning + optional LLM brain
+optuna>=3.6
+anthropic>=0.39

@@ -1,0 +1,31 @@
+# Inference / serving configuration (invoice-ai serve --config configs/infer.yaml)
+project_title: "Invoice & Receipt Processing System"
+author: "Le Dinh Minh Quan"
+
+model:
+  layout_model: "microsoft/layoutlmv3-base"
+  max_length: 512
+  apply_ocr: false
+
+ocr:
+  engine: "auto"
+  fallback_engine: "tesseract"
+  lang: "eng"
+  dpi: 250
+
+agent:
+  quality_min: 0.45
+  ocr_min: 0.70
+  field_conf_min: 0.80
+  auto_approve_min: 0.85
+  max_ocr_attempts: 2
+  reconcile_eps_abs: 0.01
+  reconcile_eps_rel: 0.005
+  llm_fallback_enabled: false      # set true + export INVOICE_AI_LLM_API_KEY to enable
+
+serving:
+  model_version: "v1"
+  api_version: "1.0.0"
+  log_extractions: true
+  max_file_mb: 20
+  max_pages: 15

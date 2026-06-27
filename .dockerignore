@@ -1,0 +1,15 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+artifacts/
+data/raw/
+data/processed/
+models/*/
+notebooks/.ipynb_checkpoints
+*.zip
+docs/DESIGN_BRIEF.md
+.github
